@@ -11,13 +11,13 @@ import { canManageUsers } from "@/lib/permissions";
 
 const createUserSchema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6),
   role: z.enum(["admin", "dispatcher", "master"]),
 });
 
 const updateRoleSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   role: z.enum(["admin", "dispatcher", "master"]),
 });
 

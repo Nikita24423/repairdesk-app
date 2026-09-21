@@ -7,8 +7,8 @@ const links = [
   { href: "/", label: "Дашборд" },
   { href: "/requests", label: "Заявки" },
   { href: "/analytics", label: "Аналитика" },
-  { href: "/equipment", label: "Оборудование", roles: ["admin", "dispatcher"] as const },
-  { href: "/users", label: "Пользователи", roles: ["admin"] as const },
+  { href: "/equipment", label: "Оборудование" },
+  { href: "/users", label: "Пользователи" },
 ];
 
 export async function AppNav() {

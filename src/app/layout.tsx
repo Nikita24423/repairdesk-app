@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
 import { AppNav } from "@/components/app-nav";
 import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const sourceSans = Source_Sans_3({
   variable: "--font-source-sans",
@@ -23,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="ru">

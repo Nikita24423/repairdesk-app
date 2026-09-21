@@ -21,10 +21,10 @@ import {
 const requestSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(3),
-  equipmentId: z.string().uuid(),
+  equipmentId: z.uuid(),
   priority: z.enum(["low", "medium", "high", "critical"]),
   slaHours: z.coerce.number().int().min(1).max(720),
-  assigneeId: z.string().uuid().optional().or(z.literal("")),
+  assigneeId: z.union([z.uuid(), z.literal("")]),
 });
 
 async function requireSession() {

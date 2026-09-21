@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 
 const credentialsSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(1),
 });
 
@@ -58,7 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (session.user && token.id && token.role) {
         session.user.id = token.id;
         session.user.role = token.role;
       }

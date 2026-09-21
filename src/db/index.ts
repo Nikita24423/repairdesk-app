@@ -1,12 +1,14 @@
 import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle, type NeonHttpDatabase } from "drizzle-orm/neon-http";
 import * as schema from "./schema";
 
+type Db = NeonHttpDatabase<typeof schema>;
+
 const globalForDb = globalThis as unknown as {
-  db: ReturnType<typeof drizzle<typeof schema>> | undefined;
+  db: Db | undefined;
 };
 
-export function getDb() {
+export function getDb(): Db {
   if (!globalForDb.db) {
     const url = process.env.DATABASE_URL;
     if (!url) {
@@ -17,8 +19,8 @@ export function getDb() {
   return globalForDb.db;
 }
 
-/** Lazy DB accessor used across the app */
-export const db = new Proxy({} as ReturnType<typeof getDb>, {
+/** Lazy DB accessor used across the app — avoids connecting at import/build time */
+export const db = new Proxy({} as Db, {
   get(_t, prop, receiver) {
     const instance = getDb();
     const value = Reflect.get(instance, prop, receiver);

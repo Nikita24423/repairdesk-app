@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import type { UserRole } from "@/db/schema";
 
 const publicPaths = ["/login"];
 
@@ -15,11 +16,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Use getToken (not auth()) so middleware stays Edge-safe and does not
+  // pull in bcrypt / drizzle / neon Node dependencies.
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
   });
 
+  const role = token?.role as UserRole | undefined;
   const isPublic = publicPaths.some((p) => pathname.startsWith(p));
 
   if (!token && !isPublic) {
@@ -35,7 +39,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (pathname.startsWith("/users") && token?.role !== "admin") {
+  if (pathname.startsWith("/users") && role !== "admin") {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
@@ -43,8 +47,8 @@ export async function middleware(request: NextRequest) {
 
   if (
     pathname.startsWith("/equipment") &&
-    token?.role !== "admin" &&
-    token?.role !== "dispatcher"
+    role !== "admin" &&
+    role !== "dispatcher"
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
