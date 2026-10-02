@@ -10,8 +10,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-source-sans);
-  --font-display: var(--font-ibm-plex);
+  --font-sans: "Segoe UI", "IBM Plex Sans", system-ui, sans-serif;
+  --font-display: "Segoe UI", "IBM Plex Sans", system-ui, sans-serif;
 }
 
 body {

@@ -84,6 +84,12 @@ export async function deleteEquipmentAction(formData: FormData) {
   const id = String(formData.get("id") ?? "");
   if (!id) throw new Error("Не указан id");
 
-  await db.delete(equipment).where(eq(equipment.id, id));
+  try {
+    await db.delete(equipment).where(eq(equipment.id, id));
+  } catch {
+    throw new Error(
+      "Нельзя удалить оборудование, пока по нему есть заявки"
+    );
+  }
   revalidatePath("/equipment");
 }

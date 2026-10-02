@@ -1,21 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { IBM_Plex_Sans, Source_Sans_3 } from "next/font/google";
-import { AppNav } from "@/components/app-nav";
 import "./globals.css";
-
-export const dynamic = "force-dynamic";
-
-const sourceSans = Source_Sans_3({
-  variable: "--font-source-sans",
-  subsets: ["latin", "cyrillic"],
-});
-
-const ibmPlex = IBM_Plex_Sans({
-  variable: "--font-ibm-plex",
-  weight: ["500", "600", "700"],
-  subsets: ["latin", "cyrillic"],
-});
 
 export const metadata: Metadata = {
   title: "RepairDesk — аналитика ремонтов",
@@ -30,12 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body
-        className={`${sourceSans.variable} ${ibmPlex.variable} font-sans antialiased`}
-      >
-        <AppNav />
-        <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

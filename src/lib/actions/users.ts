@@ -91,6 +91,12 @@ export async function deleteUserAction(formData: FormData) {
     throw new Error("Нельзя удалить текущего пользователя");
   }
 
-  await db.delete(users).where(eq(users.id, id));
+  try {
+    await db.delete(users).where(eq(users.id, id));
+  } catch {
+    throw new Error(
+      "Нельзя удалить пользователя, пока за ним числятся заявки"
+    );
+  }
   revalidatePath("/users");
 }

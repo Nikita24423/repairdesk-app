@@ -10,11 +10,11 @@ export default async function LoginPage({
   const callbackUrl = params.callbackUrl || "/";
 
   return (
-    <div className="mx-auto flex min-h-[80vh] max-w-md flex-col justify-center">
+    <div className="mx-auto flex min-h-[80vh] max-w-md flex-col justify-center px-4">
       <div className="mb-6 text-center">
         <div
           className="text-3xl font-semibold tracking-tight text-slate-900"
-          style={{ fontFamily: "var(--font-ibm-plex), sans-serif" }}
+          style={{ fontFamily: "var(--font-display), sans-serif" }}
         >
           RepairDesk
         </div>

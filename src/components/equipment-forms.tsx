@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import {
   createEquipmentAction,
   deleteEquipmentAction,
+  updateEquipmentAction,
 } from "@/lib/actions/equipment";
 import {
   FormMessage,
@@ -49,13 +50,69 @@ export function CreateEquipmentForm() {
   );
 }
 
-export function EquipmentRowActions({ item }: { item: Equipment }) {
+export function EquipmentRow({ item }: { item: Equipment }) {
+  const formId = `eq-${item.id}`;
+  const [state, formAction, pending] = useActionState(
+    updateEquipmentAction,
+    undefined
+  );
+
   return (
-    <form action={deleteEquipmentAction}>
-      <input type="hidden" name="id" value={item.id} />
-      <button type="submit" className={`${btnSecondary} text-rose-700`}>
-        Удалить
-      </button>
-    </form>
+    <tr className="border-b border-slate-100 hover:bg-slate-50">
+      <td className="px-2 py-2" colSpan={5}>
+        <form id={formId} action={formAction} className="hidden">
+          <input type="hidden" name="id" value={item.id} />
+        </form>
+        <div className="grid gap-2 md:grid-cols-5">
+          <input
+            form={formId}
+            name="inventoryCode"
+            defaultValue={item.inventoryCode}
+            className={fieldClass}
+            aria-label="Инвентарный номер"
+          />
+          <input
+            form={formId}
+            name="name"
+            defaultValue={item.name}
+            className={fieldClass}
+            aria-label="Название"
+          />
+          <input
+            form={formId}
+            name="workshop"
+            defaultValue={item.workshop}
+            className={fieldClass}
+            aria-label="Цех"
+          />
+          <input
+            form={formId}
+            name="type"
+            defaultValue={item.type}
+            className={fieldClass}
+            aria-label="Тип"
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              form={formId}
+              type="submit"
+              className={btnSecondary}
+              disabled={pending}
+            >
+              {pending ? "Сохранение…" : "Сохранить"}
+            </button>
+            <form action={deleteEquipmentAction}>
+              <input type="hidden" name="id" value={item.id} />
+              <button type="submit" className={`${btnSecondary} text-rose-700`}>
+                Удалить
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="mt-2">
+          <FormMessage error={state?.error} success={state?.success} />
+        </div>
+      </td>
+    </tr>
   );
 }

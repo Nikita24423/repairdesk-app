@@ -3,7 +3,7 @@ import { equipment } from "@/db/schema";
 import { Card, PageHeader } from "@/components/ui";
 import {
   CreateEquipmentForm,
-  EquipmentRowActions,
+  EquipmentRow,
 } from "@/components/equipment-forms";
 
 export const dynamic = "force-dynamic";
@@ -37,18 +37,7 @@ export default async function EquipmentPage() {
             </thead>
             <tbody>
               {items.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-b border-slate-100 hover:bg-slate-50"
-                >
-                  <td className="px-2 py-2 font-medium">{item.inventoryCode}</td>
-                  <td className="px-2 py-2">{item.name}</td>
-                  <td className="px-2 py-2 text-slate-600">{item.workshop}</td>
-                  <td className="px-2 py-2 text-slate-600">{item.type}</td>
-                  <td className="px-2 py-2 text-right">
-                    <EquipmentRowActions item={item} />
-                  </td>
-                </tr>
+                <EquipmentRow key={item.id} item={item} />
               ))}
             </tbody>
           </table>
